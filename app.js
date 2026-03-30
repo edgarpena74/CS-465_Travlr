@@ -1,42 +1,45 @@
-// Import required modules
-const createError = require('http-errors');
-const express = require('express');
-const path = require('path');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
-const hbs = require('hbs');
+/* Import required modules */
+var createError = require('http-errors');
+var express = require('express');
+var path = require('path');
+var cookieParser = require('cookie-parser');
+var logger = require('morgan');
 
-// Import route files from app_server
-const indexRouter = require('./app_server/routes/index');
-const travelRouter = require('./app_server/routes/travel');
+
+
+
+/* Import route files from app_server */
+var indexRouter = require('./app_server/routes/index');
+var usersRouter = require('./app_server/routes/users')
+var travelRouter = require('./app_server/routes/travel');
+
+// Define handle bars variable
+var handlebars = require('hbs'); 
 
 // Create Express app
-const app = express();
+var app = express();
 
-// Set views folder to app_server/views
+/* 
+View engine setup 
+*/
 app.set('views', path.join(__dirname, 'app_server', 'views'));
+// register handlebars partials (https://www.npmjs.com/package/hbs)
+handlebars.registerPartials(__dirname + '/app_server/views/partials')
+app.set('view engine', 'hbs'); // Set view engine to Handlebars
 
-// Set view engine to Handlebars
-app.set('view engine', 'hbs');
-
-// Register partials directory for header/footer reuse
-hbs.registerPartials(path.join(__dirname, 'app_server', 'views', 'partials'));
 
 // Middleware setup
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public'))); // Serve static files from public folder
 
-// Serve static files from public folder
-app.use(express.static(path.join(__dirname, 'public')));
 
 // Route setup
-// Homepage route
-app.use('/', indexRouter);
-
-// Travel page route
-app.use('/travel', travelRouter);
+app.use('/', indexRouter); // Homepage route
+app.use('/users', usersRouter); // User route
+app.use('/travel', travelRouter); // Travel page route
 
 // Handle 404 errors
 app.use(function(req, res, next) {

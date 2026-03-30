@@ -1,5 +1,5 @@
 // Import Express router
-const express = require('express');
+var express = require('express');
 const router = express.Router();
 
 // Import travel controller
