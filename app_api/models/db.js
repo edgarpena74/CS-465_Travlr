@@ -12,7 +12,7 @@ Creates the MongoDB connection URI using the host and travlr database.
 */
 const dbURI = `mongodb://${host}/travlr`;
 
-console.log("dbURI at: ", dbURI);
+
 
 // Readline handles input and outputs
 const readline = require('readline');

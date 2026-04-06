@@ -9,7 +9,7 @@
 <body>
 	<div id="background">
 		<div id="page">
-			// Replaced the header div with the hbs instruction tag
+			{{!-- Replaced the header div with the hbs instruction tag --}}
 			{{> header }}
 			<div id="contents">
 				<div class="box">
@@ -20,7 +20,7 @@
 								{{!-- Handlebars loop, iterates over trips object passed to the templete --}}
 								{{#each trips}}
 								<li>
-									<a href="/travel">
+									<a href="/api/trips/{{trips.code}}">
 										<img src = "public/images/{{this.images}}" alt = "Img">
 									</a>
 									<h2>
