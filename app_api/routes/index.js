@@ -14,14 +14,17 @@ and use the tripsController to get trips data
 Route: /trips
 HTTP method: GET
 Results: controller recieves data from trips
-*/ 
+*/
 router
-    .route("/trips")
-    .get(tripsController.tripsList);
+  .route("/trips")
+  .get(tripsController.tripsList) // GET
+  .post(tripsController.tripsAddTrip); // POST
 
-// Get method routes tripsFindByCode - requires parameter
+// GET method routes tripsFindByCode - requires parameter
+// PUT method routes tripsUpdateTrip - requires parameter
 router
-    .route('/trips/:tripCode')
-    .get(tripsController.tripsFindByCode);
+  .route("/trips/:tripCode")
+  .get(tripsController.tripsFindByCode)
+  .put(tripsController.tripsUpdateTrip);
 
 module.exports = router;

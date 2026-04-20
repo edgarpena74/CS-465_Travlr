@@ -1,0 +1,74 @@
+<!-- 
+
+________________________________________________________
+
+                    DEV NOTES
+________________________________________________________
+
+---------------------------------------------------------
+KEEPING THIS IS HERE TO REFERENCE BACK TO.
+
+THIS CODE HAS SINCE BEEN CHANGED WITH THE ADDITION OF 
+THE TRIP-CARD COMPONENT
+---------------------------------------------------------
+Gets the trips data from trip-listing.ts by converting the 
+array into JSON format.
+    - This is an angular pipe that converts array
+    into readable json string
+
+NOTE: 
+    In module 6 we moved the code from travlr/data/trips.json 
+    into app_admin/src/app/data/trips.ts and then now the data is 
+    in saved as a Typescript array. 
+
+ANOTHER NOTE:
+    <pre> is an html element used for preformatted. 
+        - The way that it appears as the JSON string is
+        how the browser is going to render that content
+
+
+
+****************************************************   
+
+----------------------------------------------------
+KEEPING THIS COMMENT FOR FUTURE REFERENCE.
+
+THIS HAS SECTION PORTION OF CODE WAS CHANGED
+TO STAY WITHIN PROJECT GUIDELINES.
+
+SPECIFICALLY trips.ts was changed to not have the '$'
+in the entry.
+------------------------------------------------------
+
+  Had to switch {{ trip.perPerson | currency:'USD':'symbol' }}
+  to {{ trip.perPerson }} because the currency pipe only accepts numbers
+
+  In the perPerson entry I have this format $0.00 which Typescript treats
+  as a string. This caused an issue with rendering the card elements because
+  the currency pipe expected a number instead of a string.
+
+  {{ trip.length }} only {{ trip.perPerson | currency: 'USD' : 'symbol' }} per person
+
+
+-->
+<!-- <pre>{{ trips | json }}</pre> -->
+
+<div>
+  <!-- Button element for adding a trip -->
+  <button class="btn btn-info" (click)="addTrip()">Add Trip</button>
+</div>
+
+<div class="row">
+  <!-- Angular for-loop -->
+  <div *ngFor="let trip of trips" class="col-md-4">
+    <!-- 
+    Use component selector app-trip-card from trip-card.ts
+
+    [trip] if an input property binding
+    - It passes the current trip object into the trip-card component
+    - NOTE: The trip object is being passed from the parent component
+            to the child component via the Angular *ngFor loop.
+    -->
+    <app-trip-card class="card-deck mt-2" [trip]="trip"></app-trip-card>
+  </div>
+</div>

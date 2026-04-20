@@ -6,17 +6,14 @@ from MongoDB
 
 */
 
-
-
 // Import Mongoose library to allow us to connect w/ MongoDB
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 // Register model
-const Trip = require('../models/travlr');
+const Trip = require("../models/travlr");
 
 // Import trips database model
-const Model = mongoose.model('trips');
-
+const Model = mongoose.model("trips");
 
 /*
 GET: /trips ---- Lists all the trips
@@ -62,72 +59,136 @@ does the following
     the results are are returned as JSON to the API -> front end
 
  */
-const tripsList = async(req, res) => {
+const tripsList = async (req, res) => {
+  // Query the Trip model to find all records in the database
+  const q = await Model
+    // Empty filter means return all results
+    .find({})
+    // execute query and return the results
+    .exec();
 
-    // Query the Trip model to find all records in the database
-    const q = await Model
-        // Empty filter means return all results
-        .find({}) 
-        // execute query and return the results
-        .exec(); 
-    
-        // console log the results of the query
-        console.log(q);
+  // console log the results of the query
+  console.log(q);
 
-    // If no records are found after query executes
-    if (!q) {
-        // Database returned no data
-        return res
-            // Error code 404 -> Not Found
-            .status(404)
-            // Display error code
-            .json(err);
-    }
-    // Otherwise return the results from the Trips model
-    else {
-        return res
-        // Respond with 200 -> query was successful 
+  // If no records are found after query executes
+  if (!q) {
+    // Database returned no data
+    return (
+      res
+        // Error code 404 -> Not Found
+        .status(400)
+        // Display error code
+        .json(err)
+    );
+  }
+  // Otherwise return the results from the Trips model
+  else {
+    return (
+      res
+        // Respond with 200 -> query was successful
         // and data is being returned
         .status(200)
         // return the query results as JSON
-        .json(q);
-    }
-
+        .json(q)
+    );
+  }
 };
 
-const tripsFindByCode = async(req, res) => {
-    // Query variable to find and return the "code"
-    // param if it exists in the database entries
-    const q = await Model
-        // Return all entries with the "code" keyword
-        .find({'code': req.params.tripCode})
-        .exec({});
-    
-    // Console log results of the query
-    console.log(q);
+/* 
+POST: /trips - Adds a new Trip
+Regardless of outcome, response must include HTML status code
+and JSON message to the requesting client
+*/
+const tripsAddTrip = async (req, res) => {
+  const newTrip = new Trip({
+    code: req.body.code,
+    name: req.body.name,
+    length: req.body.length,
+    start: req.body.start,
+    resort: req.body.resort,
+    perPerson: req.body.perPerson,
+    image: req.body.image,
+    description: req.body.description,
+  });
 
-    // Error Handling
-    if(!q)
-    {
-        // Database returned no error
-        return res
-            .status(404)
-            .json(err)
-    }
-    // Return resulting trip list
-    else
-    {
-        return res
-        // Return status 200 -> query was successful 
+  const q = await newTrip.save();
+  if (!q) {
+    // Database returned no data
+    return res.status(400).json(err);
+  } else {
+    // Return new trip
+    return res.status(201).json(q);
+  }
+
+  //console.log(q);
+};
+
+const tripsFindByCode = async (req, res) => {
+  // Query variable to find and return the "code"
+  // param if it exists in the database entries
+  const q = await Model
+    // Return all entries with the "code" keyword
+    .find({ code: req.params.tripCode })
+    .exec();
+
+  // Console log results of the query
+  console.log(q);
+
+  // Error Handling
+  if (!q) {
+    // Database returned no error
+    return res.status(404).json(err);
+  }
+  // Return resulting trip list
+  else {
+    return (
+      res
+        // Return status 200 -> query was successful
         // and data is being returned
         .status(200)
         // Return query results as JSON
-        .json(q);
-    }
-}
+        .json(q)
+    );
+  }
+};
 
+// PUT: /trips/:tripCode - Adds a new Trip
+// Regardless of outcome,
+// response must include HTML status code
+//  and JSON message to the requesting client
+const tripsUpdateTrip = async (req, res) => {
+  // uncomment for debugging
+  console.log(req.params);
+  console.log(req.body);
+
+  const q = await Model.findOneAndUpdate(
+    { code: req.params.tripCode },
+    {
+      code: req.body.code,
+      name: req.body.name,
+      length: req.body.length,
+      start: req.body.start,
+      resort: req.body.resort,
+      perPerson: req.body.perPerson,
+      image: req.body.image,
+      description: req.body.description,
+    },
+  ).exec();
+
+  if (!q) {
+    // database returned no data
+    return res.status(400).json(err);
+  } else {
+    return res.status(201).json(q);
+  }
+
+  // uncomment line to show results of the operation
+  // console.log(q)
+};
 // Export madule as "tripsList"
 module.exports = {
-    tripsList,
-    tripsFindByCode
+  tripsList,
+  tripsFindByCode,
+  tripsAddTrip,
+  tripsUpdateTrip,
 };

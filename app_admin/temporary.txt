@@ -1,0 +1,26 @@
+<!-- <h1>{{ title }}</h1> -->
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- 
+      Loads the 'title' signal from app.
+
+      app.html was defined as a templete inside of app.ts so we 
+      reference the signal function using parenthesis.
+    -->
+    <a class="navbar-brand" href="#">{{ title() }}</a>
+    <div>TEST @ navbar app.html</div>
+  </div>
+</nav>
+<div class="container">
+  <div>test container</div>
+  <!-- 
+    Loads the content from trip-listing.ts using the 
+    app-trip-listing component selector.
+
+    This is is an imported selector so that is why there is carrot brackets.
+  -->
+  <!-- <app-trip-listing></app-trip-listing> -->
+
+  <!-- Enables dynamic component loading -->
+  <router-outlet></router-outlet>
+</div>
