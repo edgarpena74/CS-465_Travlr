@@ -3,7 +3,6 @@
   <!-- 
     populate card header with trip names 
   -->
-
   <div class="card-header">
     {{ trip.name }}
   </div>
@@ -36,7 +35,7 @@
   </div>
 
   <!-- Edit trip button -->
-  <div>
+  <div *ngIf="isLoggedIn()">
     <button (click)="editTrip(trip)" class="btn btn-info">Edit Trip</button>
   </div>
 </div>

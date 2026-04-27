@@ -1,4 +1,9 @@
 /* 
+---------------------------
+			ANGULAR IMPORTS
+--------------------------
+*/
+/* 
 OnInit: Lifecycle hook called after Angular has initialized all
 data-bound properties of a directive.
 
@@ -16,6 +21,11 @@ CommonModule: Provides common Angular directives and pipes for use in component
 */
 import { CommonModule } from '@angular/common';
 
+/* 
+----------------------------
+			MODULE IMPORTS
+----------------------------
+*/
 // Import modules to pull data from database
 import { Trip } from '../models/trip';
 import { TripDataService } from '../services/trip-data';
@@ -26,6 +36,11 @@ import { TripCard } from '../trip-card/trip-card';
 // Import Router module
 import { Router } from '@angular/router';
 
+/* 
+--------------------------------------
+			COMPONENT CONFIGURATION
+--------------------------------------
+*/
 @Component({
   selector: 'app-trip-listing',
   standalone: true,
@@ -57,6 +72,12 @@ is assigned to the trips array.
 This change ensures that the trip list renders correctly after data is loaded
 from the backend API.
 
+*/
+
+/* 
+---------------------------
+			COMPONENT CLASS
+---------------------------
 */
 export class TripListing implements OnInit {
   /* 

@@ -21,9 +21,7 @@ var logger = require("morgan");
 -------------------------------
 *******************************
 -------------------------------
-
 *DEV NOTES FOR FUTURE REFERENCE*
-
 -------------------------------
 *******************************
 -------------------------------
@@ -68,24 +66,34 @@ var apiRouter = require("./app_api/routes/index");
 // Define handle bars variable
 var handlebars = require("hbs");
 
+// Import passport module
+var passport = require("passport");
+
 /* 
-------------------------
-NOTE: Added in module 5
-------------------------
+-----------
+* REQUIRE *
+-----------
 */
+
+//
+
+// passport
+require("./app_api/config/passport");
+
+// Bring in contents fron .env
+require("dotenv").config();
+
 // Bring in the database model
 require("./app_api/models/db");
 
 /* 
---------------------------------
-********************************
---------------------------------
-
-*DEV NOTES FOR FUTURE REFERENCE*
-
---------------------------------
-********************************
---------------------------------
+----------------------------------
+**********************************
+----------------------------------
+* DEV NOTES FOR FUTURE REFERENCE *
+----------------------------------
+**********************************
+----------------------------------
 
 Before we create the express app we need to
 import modules needed to create the express app.
@@ -168,7 +176,26 @@ app.use(cookieParser());
 // Serve static files from public folder
 app.use(express.static(path.join(__dirname, "public")));
 
-// Enable CORS(Cross Origin Resource Sharing)
+// Initialize passport
+app.use(passport.initialize());
+
+// Authorization middleware
+// Catch unauthorized error and create 401
+app.use((err, req, res, next) => {
+  if (err.name === "UnauthorizedError") {
+    res.status(401).json({ Message: err.name + ": " + err.message });
+  }
+});
+
+/* 
+------------------------------------------
+------------------------------------------
+
+Enable CORS(Cross Origin Resource Sharing)
+
+------------------------------------------
+------------------------------------------
+*/
 app.use("/api", (req, res, next) => {
   // Allow requests from the Angular development server
   res.header("Access-Control-Allow-Origin", "http://localhost:4200");
@@ -176,12 +203,11 @@ app.use("/api", (req, res, next) => {
   // Allow specific header in incoming requests
   res.header(
     "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization",
   );
 
   // Allow GET, POST, PUT, DELETE functionality
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE')
-
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
 
   // Pass control to the next middleware
   next();

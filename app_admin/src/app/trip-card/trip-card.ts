@@ -1,5 +1,9 @@
 /* 
-Imports  
+--------------------------
+			ANGULAR IMPORTS
+--------------------------
+*/
+/* 
 - Component: Decorator that marks a class and an Angular components
 
 - OnInit: Lifecycle hook called after Angular has initialized all
@@ -23,10 +27,26 @@ CommonModule: Provides common Angular directives and pipes for use in component
 */
 import { CommonModule } from '@angular/common';
 
+// Router: Enables navigation between application routes
 import { Router } from '@angular/router';
 
+/* 
+---------------------------------
+			MODULE IMPORTS
+--------------------------------
+*/
+
+// Import trip model
 import { Trip } from '../models/trip';
 
+// import authentication service
+import { AuthenticationService } from '../services/authentication';
+
+/* 
+--------------------------------------
+			COMPONENT CONFIGURATION
+-------------------------------------
+*/
 @Component({
   selector: 'app-trip-card',
   standalone: true,
@@ -45,8 +65,13 @@ export class TripCard implements OnInit {
   @Input('trip') trip: any;
 
   // Define contructor with router param
-  constructor(private router: Router) {}
-
+  constructor(
+    private router: Router,
+    private authenticationService: AuthenticationService,
+  ) {}
+  public isLoggedIn() {
+    return this.authenticationService.isLoggedIn();
+  }
   /* 
     Angular lifecycle hook that runs once 
     when the component initializes.

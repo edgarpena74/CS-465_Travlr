@@ -7,25 +7,25 @@
 import { TestBed } from '@angular/core/testing';
 
 /* 
------------------------------
+-------------------------
 			MODULE IMPORTS
------------------------------
+-------------------------
 */
-// Imports TripDataService for testing
-import { TripDataService } from './trip-data';
+// AuthenticationService: Service for handling user authentication
+import { AuthenticationService } from './authentication';
 
 /* 
------------------
+----------------
 			SPEC
------------------
+----------------
 */
-describe('TripDataService', () => {
-  let service: TripDataService;
+describe('AuthenticationService', () => {
+  let service: AuthenticationService;
 
   beforeEach(() => {
     // Sets up testing module and injects service
     TestBed.configureTestingModule({});
-    service = TestBed.inject(TripDataService);
+    service = TestBed.inject(AuthenticationService);
   });
 
   it('should be created', () => {

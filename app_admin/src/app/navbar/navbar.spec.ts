@@ -10,30 +10,30 @@ TestBed: Configures and initializes Angular testing environment.
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 /* 
--------------------------
+------------------------------
 			MODULE IMPORTS
--------------------------
+------------------------------
 */
-// Imports TripListing component for testing
-import { TripListing } from './trip-listing';
+// Navbar: Component used for navigation
+import { Navbar } from './navbar';
 
 /* 
-----------------
+----------------------
 			SPEC
-----------------
+----------------------
 */
-describe('TripListing', () => {
-  let component: TripListing;
-  let fixture: ComponentFixture<TripListing>;
+describe('Navbar', () => {
+  let component: Navbar;
+  let fixture: ComponentFixture<Navbar>;
 
   beforeEach(async () => {
-    // Configures testing module with TripListing component
+    // Configures testing module with Navbar component
     await TestBed.configureTestingModule({
-      imports: [TripListing],
+      imports: [Navbar],
     }).compileComponents();
 
-    // Creates component instance and test fixture
-    fixture = TestBed.createComponent(TripListing);
+    // Creates component instance and fixture
+    fixture = TestBed.createComponent(Navbar);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

@@ -1,25 +1,40 @@
-<!-- <h1>{{ title }}</h1> -->
+<!-- 
+
+NAVBAR COMPONENT 
+
+Displayed at the top of the page.
+
+-->
+<app-navbar></app-navbar>
+
+<!-- 
+NAVIGATION BAR
+
+Displays the application title and provides a consistent header 
+across all pages, remaining visible while routed content updates below.
+-->
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <!-- 
       Loads the 'title' signal from app.
 
-      app.html was defined as a templete inside of app.ts so we 
+      app.html was defined as a template inside of app.ts so we 
       reference the signal function using parenthesis.
     -->
     <a class="navbar-brand" href="#">{{ title() }}</a>
   </div>
 </nav>
+
+<!-- 
+MAIN PAGE CONTAINER
+-->
 <div class="container">
   <!-- 
-    Loads the content from trip-listing.ts using the 
-    app-trip-listing component selector.
+  router-outlet:
 
-    This is is an imported selector so that is why there is carrot brackets.
+  Placed below the navbar to serve as a 
+  placeholder where Angular loads routed components, 
+  allowing dynamic page content without reloading the layout.
   -->
-
-  <!-- !Removed in Module 6! <app-trip-listing></app-trip-listing> -->
-
-  <!-- Enables dynamic component loading -->
   <router-outlet></router-outlet>
 </div>
